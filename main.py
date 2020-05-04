@@ -1,4 +1,4 @@
-Feitoimport copy
+import copy
 import requests
 import hashlib
 import json
