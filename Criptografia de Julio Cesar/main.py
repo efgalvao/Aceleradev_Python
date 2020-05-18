@@ -79,7 +79,7 @@ def principal():
     sha1 = criar_sha1(traducao)
     update_json(traducao, sha1)
     response = enviar_json()
-    return 'done'
+    return response.json()
 
 print(principal())
 
