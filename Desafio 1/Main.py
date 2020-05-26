@@ -1,6 +1,7 @@
 from datetime import datetime
 
 def duracao_chamada(registro):
+    """ Função para calcular o tempo da chamada utilizando as timestamps do arquivo records."""
     inicio = datetime.fromtimestamp(registro["start"])
     fim = datetime.fromtimestamp(registro["end"])
     limite1 = datetime.strptime("22:00:00", "%H:%M:%S")
@@ -21,9 +22,11 @@ def duracao_chamada(registro):
 
 
 def main(records):
+    """Função que cria a lista de telefones e valor total com o auxílio de outras funções."""
     conta = []
     for i in records:
         x = {}
+        print(type(i), "aqui")
         duracao = duracao_chamada(i)
         custo = round((duracao * 0.09) + 0.36, 2)
         x["source"] = i["source"]
@@ -32,6 +35,7 @@ def main(records):
     return conta
 
 def check(source, custo, conta):
+    """" Função para adicionar valores a números de origem já cadastrados."""
     for dic in conta:
         if source['source'] in dic.values():
             dic["total"] += custo

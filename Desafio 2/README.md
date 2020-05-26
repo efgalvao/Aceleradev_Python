@@ -1,0 +1,1 @@
+Código para resolução do segundo desafio do AceleraDev de Python da Codenation.dev
