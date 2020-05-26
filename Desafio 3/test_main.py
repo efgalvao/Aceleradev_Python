@@ -1,4 +1,4 @@
-from main import get_temperature
+import main
 import pytest
 
 def test_get_temperature_by_lat_lng(monkeypatch):
@@ -9,8 +9,17 @@ def test_get_temperature_by_lat_lng(monkeypatch):
     def mock(lat, lng):
         return 16
 
-    # x = get_temperature(lat, lng)
     monkeypatch.setattr("main.get_temperature", mock)
+    assert main.get_temperature(lat, lng) == expected
 
-    assert get_temperature(lat, lng) == expected
-    # assert x == expected
+def test_get_no_temperature(monkeypatch):
+    lat = -14.235004
+    lng = -51.92528
+    expected = 16
+
+    def mock(lat, lng):
+        return
+
+    monkeypatch.setattr("main.get_temperature", mock)
+    assert main.get_temperature(lat, lng) == None
+
