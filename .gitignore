@@ -1,3 +1,4 @@
+.gitignore
 Codenation.code-workspace
 /home/solfieri/Documentos/Projetos/Python/Codenation/venv
 Desafio 5/desafio9/
@@ -15,3 +16,4 @@ Desafio 5/db.sqlite3 - old
 Desafio 5/api/models - old.py
 Desafio 5/api/__pycache__
 venv/
+/Desafio 5/datadesign/api/migrations/
