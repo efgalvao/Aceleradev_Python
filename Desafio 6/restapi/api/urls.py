@@ -6,6 +6,6 @@ urlpatterns = [
     path('solfi/', views.solfi, name='solfi'),
     path('', views.solfi, name='index'),
     #path('catalogs/', views.solfi, name='solfi'),
-    
-
-]
+ ]
+ # myapi/urls.py
+from django.urls import include, path
