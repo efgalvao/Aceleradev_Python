@@ -9,11 +9,12 @@ admin.site.register(User, UserAdmin)
 
 # Old
 
-from .models import User2, Agent, Event, Group, GroupUser
+from .models import User2, Agent, Event, Group, GroupUser, Error
 
 admin.site.register(User2)
 admin.site.register(Agent)
 admin.site.register(Event)
 admin.site.register(Group)
 admin.site.register(GroupUser)
+admin.site.register(Error)
 

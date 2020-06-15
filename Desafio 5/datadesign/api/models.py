@@ -38,3 +38,4 @@ class Event(models.Model):
 class GroupUser(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
