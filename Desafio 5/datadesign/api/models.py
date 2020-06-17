@@ -15,6 +15,7 @@ class Agent(models.Model):
     version = models.CharField('Version', max_length=5)
     address = models.GenericIPAddressField('Address', protocol="IPV4", default="0.0.0.0")
 
+
 class Group(models.Model):
     name = models.CharField('Nome', max_length=50)
 
@@ -36,6 +37,6 @@ class Event(models.Model):
 
 
 class GroupUser(models.Model):
-    group = models.OneToOneField(Group, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
