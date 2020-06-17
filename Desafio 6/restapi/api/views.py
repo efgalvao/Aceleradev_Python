@@ -4,7 +4,6 @@ from rest_framework import status
 from collections import Counter
 
 
-
 @api_view(["POST"])
 def lambda_function(request):
     try:
