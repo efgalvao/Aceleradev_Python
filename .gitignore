@@ -1,25 +1,9 @@
-.gitignore
 Codenation.code-workspace
-/home/solfieri/Documentos/Projetos/Python/Codenation/venv
-Desafio 5/desafio9/
-Desafio 5/__pycache__/
-Desafio 5/desafio9/
-desafio4/
 .idea/
 .vscode/
-arquivos_aula/
-Desafio 1/teste.py
-Desafio 3/__pycache__/
-Desafio 3/.pytest_cache/
-Desafio 5/.pytest_cache/
-Desafio 5/db.sqlite3 - old
-Desafio 5/api/models - old.py
-Desafio 5/api/__pycache__
 venv/
-/Desafio 5/datadesign/api/migrations/
-Projeto final/Central/Central/__pycache__/*
-Projeto final/Central/api/__pycache__/
-Projeto final/Central/api/migrations/
+migrations/
+__pycache__/
 .installed.cfg
 bin
 develop-eggs
