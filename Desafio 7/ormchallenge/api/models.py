@@ -1,42 +1,70 @@
+from django.core.validators import MinLengthValidator, \
+                                    EmailValidator, validate_ipv4_address
 from django.db import models
-from django.core import validators
+from datetime import date
 
-class User(models.Model, ):
-    name = models.CharField('Nome', max_length=50)
-    last_login = models.DateTimeField('Último login', auto_now_add=True)
-    email = models.EmailField('E-mail', max_length=254)
-    password = models.CharField('Senha', max_length=50, validators=[validators.MinLengthValidator(8)])
+# Create your models here.
 
+LEVEL_CHOICES = [
+    ('critical', 'critical.'),
+    ('debug', 'debug'),
+    ('error', 'error'),
+    ('warning', 'warning'),
+    ('information', 'info'),
+]
 
-class Agent(models.Model):
-    name = models.CharField('Nome', max_length=50)
-    status = models.BooleanField()
-    env = models.CharField(max_length=20)
-    version = models.CharField('Version', max_length=5)
-    address = models.GenericIPAddressField('Address', protocol="IPV4", default="0.0.0.0")
+min_validator = MinLengthValidator(8, 'the password cant be small then 8')
 
 
 class Group(models.Model):
-    name = models.CharField('Nome', max_length=50)
+    name = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(validators=[EmailValidator], null=True)
+    password = models.CharField(max_length=50, validators=[min_validator])
+    last_login = models.DateField(default=date.today)
+    group = models.ManyToManyField(Group)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
+class Agent(models.Model):
+    name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    address = models.GenericIPAddressField(
+        validators=[validate_ipv4_address], null=True)
+    status = models.BooleanField(default=False)
+    env = models.CharField(max_length=20)
+    version = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class Event(models.Model):
-    ERROR_LEVEL = [
-        ('CRITICAL', 'CRITICAL'),
-        ('DEBUG', 'DEBUG'),
-        ('ERROR', 'ERROR'),
-        ('WARNING', 'WARNING'),
-        ('INFO', 'INFO'),
-    ]
-    level = models.CharField(max_length=20, choices=ERROR_LEVEL)
-    data = models.TextField("Dados")
-    arquivado = models.BooleanField('Arquivado', default=False)
-    date = models.DateField('Data', auto_now=True)
-    agent = models.OneToOneField(Agent, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    level = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+    data = models.TextField(max_length=500)
+    agent = models.OneToOneField(Agent, on_delete=models.PROTECT)
+    arquivado = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.level + ' in ' + self.agent.name
 
-class User_Group(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    class Meta:
+        ordering = ['date']
