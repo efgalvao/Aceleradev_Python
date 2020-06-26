@@ -30,13 +30,8 @@ def verify_signature(token):
         The decoded message.
     """
     key = 'acelera'
-    #err = {'error': 2}
     try:
-        return jwt.decode(token, key, algorithms=['HS256'])
+        x = jwt.decode(token, key, algorithms=['HS256'])
     except:
         return {'error': 2}
-    #return x
-
-print(create_token({'Oie': 123}, 'acelera'))
-print(verify_signature(b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPaWUiOjEyM30._vrN3OpjWoBX7MU9JaCakhBkeErGKF4vwVUKONwQpUg'
-))
+    return x
