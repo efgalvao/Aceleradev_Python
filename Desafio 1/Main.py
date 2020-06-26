@@ -110,5 +110,3 @@ records = [
     {'source': '48-996383697', 'destination': '41-885633788', 'end': 1564627800, 'start': 1564626000}
 
 ]
-
-print(classify_by_phone_number(records))
