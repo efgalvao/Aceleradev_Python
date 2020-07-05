@@ -1,8 +1,7 @@
 doc = '''
 #%RAML 1.0
 title: Python-12
-mediaType:
-  - application/json
+mediaType: application/json
 baseUri: http://localhost/
 version: 1
 protocols:
@@ -22,21 +21,12 @@ securitySchemes:
         401:
           description: |
               {"error": "permission denied"}
-        403:
-          description: 
-              {"error": "forbidden"}
-securitySchemes:
-  JWT:
-    type: JWT
-
 types:
   Auth:
     type: object
     discriminator: token
     properties:
       token:
-        required: true
-        example: Example
         type: string
   Event:
     type: object
@@ -44,7 +34,6 @@ types:
     properties:
       event_id:
         required: true
-        example: 1
         type: integer
       level:
         type: string
@@ -60,7 +49,7 @@ types:
     example:
       event_id: 1
       level: info
-      payload: Blah Blah Blah
+      payload: blah
       shelve: true
       date: 2020-07-03T00:00:00
       agent_id: 1
@@ -69,16 +58,13 @@ types:
     discriminator: group_id
     properties:
       group_id:
-        required: true
-        example: 1
         type: integer
       name:
-        example: Example
         type: string
         maxLength: 20
       example:
-      grou_id: 1
-      name: Devs
+        group_id: 1
+        name: devs
   Agent:
     type: object
     discriminator: agent_id
@@ -104,47 +90,39 @@ types:
         type: integer
     example:
       agent_id: 1
-      name: Zeca
+      name: zeca
       status: false
       environment: Python
       version: ex
       address: 1.1.1.1
       user_id: 1
-
   User:
     type: object
     discriminator: user_id
     properties:
       user_id:
         required: true
-        example: 1
         type: integer
       name:
-        example: Example
+        type: string
+        maxLength: 50
+      password:
         type: string
         maxLength: 50
       email:
-        example: Example
         type: string
         maxLength: 254
-      password:
-        example: Example
-        type: string
-        maxLength: 50
       last_login:
-        example: 2020-07-03T00:00:00.000Z
-        type: datetime-only
+        type: date-only
     example:
       user_id: 1
       name: Joe
       email: joe@mail.com
       password: password
-      last_login: 2020-07-03T00:00:00
+      last_login: 2020-07-03
 /agents:
   get:
-    description: Get agents list
-    securedBy:
-      - JWT
+    description: List all agents
     responses:
       200: 
         body:
@@ -153,7 +131,7 @@ types:
       401: 
         body:
           application/json:
-            {"error": "permission denied"}
+            "permission denied"
   post:
     description: Create Agent
     securedBy:
@@ -165,43 +143,11 @@ types:
       201: 
         body:
           application/json:
-            Agent
+            agent
       401: 
         body:
           application/json:
             {"error": "permission denied"}
-  put:
-    description: Update event
-    body:
-      application/json:
-        type: Agent
-    securedBy:
-      - JWT
-    body:
-      application/json:
-        type: Agent
-    responses:
-      200: 
-        body:
-          application/json:
-            {"message": "Ok"}
-      401: 
-        body:
-          application/json:
-            {"error": "permission denied"}
-  delete:
-    description: Delete event
-    securedBy:
-      - JWT
-    responses:
-      200: 
-        body:
-          application/json:
-            {"message": "Ok"}
-      401: 
-        body:
-          application/json:
-            {"error": "permission denied"}  
   /{id}:
     get:
       displayName: Agent Detail
@@ -239,6 +185,10 @@ types:
           body:
             application/json:
               {"error": "permission denied"}
+        404: 
+          body:
+            application/json:
+              {"error": "Bad Request"}
     delete:
       description: Delete agent
       securedBy:
@@ -252,9 +202,13 @@ types:
           body:
             application/json:
               {"error": "permission denied"}
+        404: 
+          body:
+            application/json:
+              {"error": "Bad Request"}
   /{id}/events:
     get:
-      description: Get events ist by agent id
+      description: Get events by agent id
       securedBy:
         - JWT
       responses:
@@ -269,7 +223,7 @@ types:
         404: 
           body:
             application/json:
-              {"error": "not found"}
+              {"error": "Bad Request"}
     post:
       description: Create event
       body:
@@ -289,7 +243,7 @@ types:
         404: 
           body:
             application/json:
-              {"error": "not found"}
+              {"error": "Bad Request"}
     put:
        description: Update event
        body:
@@ -306,6 +260,10 @@ types:
            body:
              application/json:
                {"error": "permission denied"}
+         404: 
+           body:
+             application/json:
+               {"error": "Bad Request"}
     delete:
       description: Delete event
       securedBy:
@@ -319,9 +277,13 @@ types:
           body:
             application/json:
               {"error": "permission denied"}      
+        404: 
+          body:
+            application/json:
+              {"error": "Bad Request"}
       /{id}/events/{id}:
         get:
-          description: Create event
+          description: Get event detail
           securedBy:
             - JWT
           responses:
@@ -333,10 +295,6 @@ types:
               body:
                 application/json:
                   {"error": "permission denied"}
-            404: 
-              body:
-                application/json:
-                  {"error": "not found"}
         put:
           description: Update event
           body:
@@ -353,6 +311,10 @@ types:
               body:
                 application/json:
                   {"error": "permission denied"}
+            404: 
+              body:
+                application/json:
+                  {"error": "Bad Request"}
         delete:
           description: Delete event
           securedBy:
@@ -368,7 +330,7 @@ types:
                   {"error": "permission denied"}
 /groups:
   get:
-    description: get groups list
+    description: Get groups list
     securedBy:
       - JWT
     responses:
@@ -380,6 +342,10 @@ types:
         body:
           application/json:
             {"error": "permission denied"}
+      404: 
+        body:
+          application/json:
+            {"error": "Bad Request"}
   post:
     description: Create group
     body:
@@ -399,7 +365,7 @@ types:
       404: 
         body:
           application/json:
-            {"error": "not found"}
+            {"error": "Bad Request"}
   /{id}:
     get:
       description: Display group detail
@@ -410,14 +376,14 @@ types:
           body:
             application/json:
               {"message": "Ok"}
-        404: 
-          body:
-            application/json:
-              {"error": "not found"}
         401: 
           body:
             application/json:
               {"error": "permission denied"}
+        404: 
+          body:
+            application/json:
+              {"error": "Bad Request"}
     put:
       description: Update Group
       body:
@@ -479,7 +445,7 @@ types:
             {"error": "permission denied"}
   /{id}:
     get:
-      description: User Detail
+      description: Get user Detail
       securedBy:
         - JWT
       responses:
@@ -512,7 +478,7 @@ types:
             application/json:
               {"error": "permission denied"}
     delete:
-      description: Delete users
+      description: Delete user
       securedBy:
         - JWT
       responses:
@@ -530,8 +496,6 @@ types:
     body:
       application/json:
         type: Auth    
-    securedBy:
-      - JWT
     body:
       application/json:
         username: string
@@ -541,7 +505,7 @@ types:
         body:
           application/json:
             Auth
-      400: 
+      401: 
         body:
           application/json:
             {"error": "permission denied"}
