@@ -5,8 +5,8 @@ from datetime import date, timedelta
 def get_active_users() -> User:
     """Traga todos os uarios ativos,
     seu último login deve ser menor que 10 dias """
-    days_ago = date.today() - timedelta(days=10)
-    queryset = User.objects.filter(last_login__gt=days_ago)
+    limit = date.today() - timedelta(days=10)
+    queryset = User.objects.filter(last_login__gt=limit)
     return queryset
 
 
