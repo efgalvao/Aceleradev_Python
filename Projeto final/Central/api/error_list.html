@@ -1,8 +1,0 @@
-<h1>Errors</h1>
-<ul>
-{% for error in object_list %}
-    <li>{{ error.title|date }} - {{ error.level }}</li>
-{% empty %}
-    <li>No errors yet.</li>
-{% endfor %}
-</ul>
