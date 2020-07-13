@@ -17,7 +17,7 @@ def create_token(data, secret):
     token = jwt.encode(data, secret, algorithm='HS256')
     return token
 
-def verify_signature(token):
+def verify_signature(token:str/bytes) -> dict:
     """
     Decodes the given token
 

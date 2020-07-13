@@ -1,7 +1,7 @@
 import requests
 
 
-def get_temperature(lat, lng):
+def get_temperature(lat:float, lng:float) -> Int:
     """
     Function that obtain the temperature of a region based on its latitude and longitude coordinates.
 

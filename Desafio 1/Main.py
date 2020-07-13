@@ -1,6 +1,6 @@
 from datetime import datetime
 
-def call_time(record):
+def call_time(record:dict) -> Int :
     """ 
     Function to calculate the time of the call using the timestamps of the records file.
 
@@ -29,7 +29,7 @@ def call_time(record):
     total_minutes = (int(duration.seconds) // 60)
     return total_minutes
 
-def classify_by_phone_number(records):
+def classify_by_phone_number(records:list) -> List:
     """
     Function that creates the phone list and total value with the help of other functions.
 
@@ -56,7 +56,7 @@ def classify_by_phone_number(records):
         bill = sorted(bill, key = lambda i: i['total'], reverse=True)
     return bill
 
-def check(source, cost, bill):
+def check(source:str, cost:int, bill:list) -> List:
     """ 
     Function to add values to source numbers in the bill list.
 
