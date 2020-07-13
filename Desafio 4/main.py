@@ -1,6 +1,6 @@
 import jwt
 
-def create_token(data, secret):
+def create_token(data:dict, secret:str) -> str:
     """
     Creates a token with JWT(JSON Web Token)
 
